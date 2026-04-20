@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dhruv — Hall of Excellence</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & ROOT ─────────────────────────────── */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#C9922E;--gold2:#F5D98B;--gold3:#7A540F;
+  --dark:#0A0A0C;--dark2:#111116;--dark3:#18181F;--dark4:#22222C;
+  --text:#EDE9E0;--text2:#9E9A90;--text3:#5C5952;
+  --white:#FAFAF7;
+  --r:14px;--r2:10px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;cursor:default}
+
+/* ── NOISE TEXTURE OVERLAY ─────────────────────── */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:.6;
+}
+
+/* ── NAV ────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:60px;
+  background:rgba(10,10,12,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(201,146,46,0.15);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2.5rem;
+}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.35rem;font-weight:600;
+  color:var(--gold);letter-spacing:2px;
+}
+.nav-links{display:flex;gap:.25rem}
+.nav-links a{
+  color:var(--text2);text-decoration:none;
+  font-size:.78rem;font-weight:500;letter-spacing:.8px;text-transform:uppercase;
+  padding:6px 14px;border-radius:6px;
+  transition:all .2s;cursor:pointer;
+}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);background:rgba(201,146,46,0.08)}
+.nav-admin{
+  background:rgba(201,146,46,0.1);
+  border:1px solid rgba(201,146,46,0.3);
+  color:var(--gold);padding:6px 16px;border-radius:7px;
+  font-size:.75rem;font-weight:500;letter-spacing:.5px;
+  cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;
+}
+.nav-admin:hover{background:rgba(201,146,46,0.2)}
+
+/* ── SECTIONS ───────────────────────────────────── */
+.page{display:none;min-height:100vh;padding-top:60px;position:relative;z-index:1}
+.page.active{display:block}
+
+/* ── HOME ───────────────────────────────────────── */
+#home{
+  background:
+    radial-gradient(ellipse 70% 50% at 80% 20%, rgba(201,146,46,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 60% at 10% 90%, rgba(123,104,238,0.05) 0%, transparent 55%),
+    var(--dark);
+}
+.home-inner{max-width:1100px;margin:0 auto;padding:5rem 2.5rem 4rem}
+.home-grid{display:grid;grid-template-columns:1fr 420px;gap:5rem;align-items:center}
+
+.home-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.72rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.5rem;
+}
+.home-eyebrow::before,.home-eyebrow::after{content:'';width:24px;height:1px;background:var(--gold);opacity:.5}
+.home-h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3rem,6vw,5.5rem);
+  font-weight:700;line-height:1.0;
+  margin-bottom:1rem;color:var(--white);
+}
+.home-h1 .gold{color:var(--gold)}
+.home-h1 .italic{font-style:italic;color:var(--text2)}
+.home-desc{
+  font-size:1rem;line-height:1.8;color:var(--text2);
+  max-width:480px;margin-bottom:2.5rem;
+}
+.home-ctas{display:flex;gap:.75rem;flex-wrap:wrap}
+.btn-primary{
+  background:var(--gold);color:var(--dark);
+  padding:11px 26px;border-radius:8px;
+  font-size:.85rem;font-weight:500;letter-spacing:.3px;
+  border:none;cursor:pointer;font-family:'DM Sans',sans-serif;
+  transition:all .2s;
+}
+.btn-primary:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn-ghost{
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.12);
+  color:var(--text2);
+  padding:11px 26px;border-radius:8px;
+  font-size:.85rem;font-weight:500;letter-spacing:.3px;
+  cursor:pointer;font-family:'DM Sans',sans-serif;
+  transition:all .2s;
+}
+.btn-ghost:hover{border-color:rgba(201,146,46,0.4);color:var(--gold)}
+
+/* stat strip */
+.stat-strip{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:var(--r);overflow:hidden;margin-top:3rem;
+}
+.stat-cell{
+  background:rgba(255,255,255,0.02);
+  padding:1.25rem 1.5rem;
+  backdrop-filter:blur(10px);
+}
+.stat-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.4rem;font-weight:700;color:var(--gold);line-height:1;
+}
+.stat-lbl{font-size:.72rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+/* orbit card */
+.home-visual{display:flex;justify-content:center;align-items:center}
+.avatar-wrap{position:relative;width:340px;height:340px}
+.avatar-ring{
+  position:absolute;inset:0;border-radius:50%;
+  border:1px solid rgba(201,146,46,0.2);
+  animation:spin 20s linear infinite;
+}
+.avatar-ring-2{
+  position:absolute;inset:20px;border-radius:50%;
+  border:1px dashed rgba(201,146,46,0.1);
+  animation:spin 14s linear infinite reverse;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.avatar-center{
+  position:absolute;
+  inset:40px;border-radius:50%;
+  background:radial-gradient(circle at 40% 40%, var(--dark4), var(--dark2));
+  border:1px solid rgba(201,146,46,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;
+  font-size:5rem;font-weight:700;color:var(--gold);
+  letter-spacing:2px;
+}
+.orbit-tag{
+  position:absolute;
+  background:var(--dark3);
+  border:1px solid rgba(201,146,46,0.25);
+  border-radius:50px;
+  padding:5px 13px;font-size:.72rem;font-weight:500;
+  white-space:nowrap;
+}
+.orbit-tag:nth-child(1){top:10px;right:10px;color:#9B8FF0;border-color:rgba(155,143,240,0.3)}
+.orbit-tag:nth-child(2){bottom:30px;left:0;color:#4CAF7D;border-color:rgba(76,175,125,0.3)}
+.orbit-tag:nth-child(3){top:50%;right:-10px;transform:translateY(-50%);color:var(--gold2);border-color:rgba(245,217,139,0.3)}
+.orbit-tag:nth-child(4){bottom:10px;right:20px;color:#F06292;border-color:rgba(240,98,146,0.3)}
+/* quote */
+.home-quote{
+  background:rgba(201,146,46,0.05);
+  border:1px solid rgba(201,146,46,0.15);
+  border-left:3px solid var(--gold);
+  border-radius:0 var(--r) var(--r) 0;
+  padding:1.5rem 2rem;margin-top:4rem;
+}
+.home-quote blockquote{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.3rem;font-style:italic;
+  color:var(--gold2);line-height:1.5;margin-bottom:.5rem;
+}
+.home-quote cite{font-size:.78rem;color:var(--text3)}
+
+/* ── ACHIEVEMENTS ───────────────────────────────── */
+#achievements{
+  background:var(--dark2);
+}
+.section-inner{max-width:1100px;margin:0 auto;padding:5rem 2.5rem}
+.section-header{margin-bottom:3rem}
+.section-eyebrow{
+  font-size:.72rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);display:flex;align-items:center;gap:8px;margin-bottom:.75rem;
+}
+.section-eyebrow::after{content:'';flex:1;max-width:60px;height:1px;background:var(--gold);opacity:.4}
+.section-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,4vw,3rem);
+  font-weight:700;color:var(--white);margin-bottom:.5rem;
+}
+.section-sub{font-size:.95rem;color:var(--text2)}
+
+/* filter row */
+.filter-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.fchip{
+  padding:6px 16px;border-radius:50px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:transparent;color:var(--text2);
+  font-size:.78rem;font-family:'DM Sans',sans-serif;
+  cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.fchip:hover{border-color:rgba(201,146,46,0.3);color:var(--text)}
+.fchip.on{background:var(--gold);color:var(--dark);border-color:var(--gold)}
+
+/* achievement grid */
+.ach-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.ach-card{
+  background:rgba(255,255,255,0.025);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:var(--r);padding:1.4rem;
+  position:relative;overflow:hidden;
+  transition:all .25s;
+}
+.ach-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--cat-color);opacity:.7;
+}
+.ach-card:hover{
+  border-color:rgba(201,146,46,0.2);
+  transform:translateY(-2px);
+  background:rgba(255,255,255,0.04);
+}
+.ach-icon-wrap{
+  width:42px;height:42px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;margin-bottom:1rem;
+  flex-shrink:0;
+}
+.ach-title{font-size:.93rem;font-weight:500;color:var(--white);margin-bottom:.4rem;line-height:1.4}
+.ach-desc{font-size:.8rem;color:var(--text2);line-height:1.6}
+.ach-tag{
+  display:inline-block;font-size:.68rem;font-weight:500;
+  letter-spacing:.5px;text-transform:uppercase;
+  padding:3px 10px;border-radius:50px;margin-top:.7rem;
+}
+
+/* ── BOOKS ──────────────────────────────────────── */
+#books{
+  background:
+    radial-gradient(ellipse 50% 40% at 100% 0%, rgba(201,146,46,0.05) 0%, transparent 50%),
+    var(--dark);
+}
+.books-controls{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;margin-bottom:2rem}
+.search-wrap{position:relative}
+.search-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--text3);pointer-events:none}
+.search-wrap input{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:8px;padding:9px 14px 9px 36px;
+  color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;
+  outline:none;min-width:220px;transition:border-color .2s;
+}
+.search-wrap input:focus{border-color:rgba(201,146,46,0.4)}
+.search-wrap input::placeholder{color:var(--text3)}
+.genre-chips{display:flex;gap:.5rem;flex-wrap:wrap}
+
+/* series shelf */
+.series-block{margin-bottom:3rem}
+.series-header{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid rgba(255,255,255,0.05)}
+.sdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.sname{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--white)}
+.sauthor{font-size:.78rem;color:var(--text3)}
+.sbadge{
+  margin-left:auto;font-size:.68rem;font-weight:500;
+  padding:3px 10px;border-radius:50px;border:1px solid;white-space:nowrap;
+}
+.shelf{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:.65rem}
+.book-icon{width:60px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:default;position:relative}
+.book-img{display:block;border-radius:3px 6px 6px 3px;transition:transform .2s;box-shadow:2px 3px 10px rgba(0,0,0,.4)}
+.book-icon:hover .book-img{transform:translateY(-5px) scale(1.07)}
+.btitle-lbl{font-size:.62rem;color:var(--text2);text-align:center;line-height:1.3;width:60px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;word-break:break-word}
+.btt{
+  position:absolute;bottom:calc(100% + 5px);left:50%;
+  transform:translateX(-50%) translateY(4px);
+  background:var(--dark4);border:1px solid rgba(201,146,46,0.2);
+  color:var(--text);font-size:.72rem;padding:6px 10px;border-radius:8px;
+  opacity:0;transition:opacity .15s,transform .15s;pointer-events:none;
+  white-space:normal;max-width:150px;text-align:center;line-height:1.35;z-index:20;
+}
+.btt::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--dark4)}
+.book-icon:hover .btt{opacity:1;transform:translateX(-50%) translateY(0)}
+.prog-row{display:flex;align-items:center;gap:8px;margin-top:.5rem}
+.prog-track{flex:1;height:2px;background:rgba(255,255,255,0.06);border-radius:1px;overflow:hidden}
+.prog-fill{height:100%;border-radius:1px}
+.prog-lbl{font-size:.72rem;color:var(--text3);white-space:nowrap}
+
+/* divider */
+.sdivider{height:1px;background:rgba(255,255,255,0.04);margin-bottom:3rem}
+
+/* ── ADMIN OVERLAY ──────────────────────────────── */
+#admin-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.87);z-index:200;
+  overflow-y:auto;
+}
+#admin-overlay.open{display:flex;align-items:flex-start;justify-content:center;padding:2rem 1rem}
+.admin-panel{
+  background:var(--dark3);border:1px solid rgba(255,255,255,0.08);
+  border-radius:20px;width:100%;max-width:700px;padding:2rem;
+  margin-top:1rem;
+}
+.admin-panel h2{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--white);margin-bottom:1.5rem}
+.admin-tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid rgba(255,255,255,0.06)}
+.atab{
+  background:none;border:none;color:var(--text2);
+  padding:7px 16px;cursor:pointer;font-family:'DM Sans',sans-serif;
+  font-size:.82rem;border-radius:8px;transition:all .2s;
+}
+.atab.on{background:rgba(201,146,46,0.15);color:var(--gold)}
+.acontent{display:none}
+.acontent.on{display:block}
+.fg{margin-bottom:1.1rem}
+.fg label{display:block;font-size:.75rem;color:var(--text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.fg input,.fg textarea,.fg select{
+  width:100%;background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:9px;padding:9px 13px;
+  color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;
+  outline:none;transition:border-color .2s;
+}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:rgba(201,146,46,0.4)}
+.fg textarea{min-height:75px;resize:vertical}
+.fg select option{background:var(--dark3)}
+.abtn{
+  background:var(--gold);color:var(--dark);border:none;
+  padding:9px 22px;border-radius:9px;
+  font-family:'DM Sans',sans-serif;font-weight:500;font-size:.85rem;cursor:pointer;transition:all .2s;
+}
+.abtn:hover{filter:brightness(1.1)}
+.adelbtn{
+  background:rgba(229,57,53,0.1);border:1px solid rgba(229,57,53,0.25);
+  color:#EF5350;padding:5px 13px;border-radius:7px;
+  font-family:'DM Sans',sans-serif;font-size:.75rem;cursor:pointer;transition:all .2s;
+}
+.adelbtn:hover{background:rgba(229,57,53,0.2)}
+.admin-close{
+  background:rgba(255,255,255,0.06);border:none;
+  color:var(--text2);width:34px;height:34px;border-radius:50%;
+  cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;
+  float:right;margin-top:-4px;
+}
+.alist{margin-top:1.25rem;border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem}
+.aitem{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:.82rem;gap:.75rem}
+.aitem-text{flex:1;color:var(--text);line-height:1.4}
+.succ{color:#4CAF7D;font-size:.8rem;margin-top:.4rem;display:none}
+
+/* ── RESPONSIVE ─────────────────────────────────── */
+@media(max-width:768px){
+  .home-grid{grid-template-columns:1fr;gap:2.5rem}
+  .home-visual{display:none}
+  nav{padding:0 1.25rem}
+  .section-inner{padding:4rem 1.25rem}
+  .home-inner{padding:4rem 1.25rem 3rem}
+}
+
+/* ── ANIMATIONS ─────────────────────────────────── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.page.active .anim{animation:fadeUp .45s ease both}
+.page.active .anim-1{animation-delay:.05s}
+.page.active .anim-2{animation-delay:.12s}
+.page.active .anim-3{animation-delay:.2s}
+.page.active .anim-4{animation-delay:.28s}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">DHRUV</div>
+  <div class="nav-links">
+    <a onclick="go('home')" id="nl-home" class="active">Home</a>
+    <a onclick="go('achievements')" id="nl-achievements">Achievements</a>
+    <a onclick="go('books')" id="nl-books">Books</a>
+  </div>
+  <button class="nav-admin" onclick="openAdmin()">⚙ Manage</button>
+</nav>
+
+<!-- HOME -->
+<section id="home" class="page active">
+  <div class="home-inner">
+    <div class="home-grid">
+      <div>
+        <div class="home-eyebrow anim anim-1">Hall of Excellence</div>
+        <h1 class="home-h1 anim anim-2">
+          The World<br>of <span class="gold" id="hero-name">Dhruv</span><br>
+          <span class="italic">Unfolds Here</span>
+        </h1>
+        <p class="home-desc anim anim-3">
+          A living record of accomplishments, books conquered, and passions pursued — every entry a chapter in an extraordinary journey.
+        </p>
+        <div class="home-ctas anim anim-4">
+          <button class="btn-primary" onclick="go('achievements')">View Achievements</button>
+          <button class="btn-ghost" onclick="go('books')">Browse Library</button>
+        </div>
+        <div class="stat-strip anim anim-4" id="hero-stats">
+          <div class="stat-cell"><div class="stat-num" id="s-ach">11</div><div class="stat-lbl">Achievements</div></div>
+          <div class="stat-cell"><div class="stat-num" id="s-bk">171</div><div class="stat-lbl">Books Read</div></div>
+          <div class="stat-cell"><div class="stat-num" id="s-ser">9</div><div class="stat-lbl">Series</div></div>
+        </div>
+      </div>
+      <div class="home-visual anim anim-2">
+        <div class="avatar-wrap">
+          <div class="orbit-tag">🥋 Black Belt</div>
+          <div class="orbit-tag">🎹 Superior Rating</div>
+          <div class="orbit-tag">🤖 Robotics State</div>
+          <div class="orbit-tag">🏆 Math League</div>
+          <div class="avatar-ring"></div>
+          <div class="avatar-ring-2"></div>
+          <div class="avatar-center">D</div>
+        </div>
+      </div>
+    </div>
+    <div class="home-quote anim anim-4">
+      <blockquote id="hero-quote">"The secret of getting ahead is getting started."</blockquote>
+      <cite id="hero-cite">— Mark Twain</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements" class="page">
+  <div class="section-inner">
+    <div class="section-header anim anim-1">
+      <div class="section-eyebrow">Accomplishments</div>
+      <h2 class="section-title">Every Trophy,<br>Every Milestone</h2>
+      <p class="section-sub">A testament to hard work, curiosity, and relentless pursuit of excellence.</p>
+    </div>
+    <div class="filter-row anim anim-2" id="ach-filters"></div>
+    <div class="ach-grid anim anim-3" id="ach-grid"></div>
+  </div>
+</section>
+
+<!-- BOOKS -->
+<section id="books" class="page">
+  <div class="section-inner">
+    <div class="section-header anim anim-1">
+      <div class="section-eyebrow">Reading Universe</div>
+      <h2 class="section-title">Books Conquered,<br>Worlds Explored</h2>
+      <p class="section-sub">Every series read cover to cover — from Hogwarts to the Grand Line.</p>
+    </div>
+    <div class="books-controls anim anim-2">
+      <div class="search-wrap">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6.5" cy="6.5" r="4.5"/><path d="M10 10l3 3"/></svg>
+        <input id="book-search" placeholder="Search series or title…" oninput="renderBooks()">
+      </div>
+      <div class="genre-chips" id="genre-chips"></div>
+    </div>
+    <div id="books-body" class="anim anim-3"></div>
+  </div>
+</section>
+
+<!-- ADMIN OVERLAY -->
+<div id="admin-overlay">
+  <div class="admin-panel">
+    <button class="admin-close" onclick="closeAdmin()">✕</button>
+    <h2>Content Manager</h2>
+    <div class="admin-tabs">
+      <button class="atab on" onclick="switchTab('add-ach')">+ Achievement</button>
+      <button class="atab" onclick="switchTab('add-book')">+ Book Series</button>
+      <button class="atab" onclick="switchTab('edit-ach')">Edit Achievements</button>
+      <button class="atab" onclick="switchTab('edit-books')">Edit Books</button>
+      <button class="atab" onclick="switchTab('settings')">Settings</button>
+    </div>
+    <div id="tab-add-ach" class="acontent on">
+      <div class="fg"><label>Title</label><input id="na-title" placeholder="e.g. Won Science Fair"></div>
+      <div class="fg"><label>Description</label><textarea id="na-desc" placeholder="Details…"></textarea></div>
+      <div class="fg"><label>Category</label>
+        <select id="na-cat">
+          <option value="academic">Academic</option>
+          <option value="stem">STEM</option>
+          <option value="music">Music</option>
+          <option value="sports">Sports</option>
+          <option value="arts">Arts &amp; Other</option>
+          <option value="leadership">Leadership</option>
+        </select>
+      </div>
+      <div class="fg"><label>Year</label><input id="na-year" placeholder="e.g. 2024"></div>
+      <button class="abtn" onclick="addAch()">Add Achievement</button>
+      <div class="succ" id="ach-ok">✓ Achievement added!</div>
+    </div>
+    <div id="tab-add-book" class="acontent">
+      <div class="fg"><label>Series Name</label><input id="nb-name" placeholder="e.g. The Lord of the Rings"></div>
+      <div class="fg"><label>Author</label><input id="nb-author" placeholder="e.g. J.R.R. Tolkien"></div>
+      <div class="fg"><label>Genre</label>
+        <select id="nb-genre">
+          <option>Fantasy</option><option>Sci-Fi</option><option>Manga</option>
+          <option>Adventure</option><option>Fiction</option><option>Other</option>
+        </select>
+      </div>
+      <div class="fg"><label>Books (one title per line)</label><textarea id="nb-books" placeholder="The Fellowship of the Ring&#10;The Two Towers" style="min-height:100px"></textarea></div>
+      <div class="fg"><label>Status</label>
+        <select id="nb-status"><option value="complete">Complete</option><option value="partial">Partial</option><option value="ongoing">Ongoing</option></select>
+      </div>
+      <button class="abtn" onclick="addBookSeries()">Add Series</button>
+      <div class="succ" id="book-ok">✓ Series added!</div>
+    </div>
+    <div id="tab-edit-ach" class="acontent"><div class="alist" id="admin-ach-list"></div></div>
+    <div id="tab-edit-books" class="acontent"><div class="alist" id="admin-book-list"></div></div>
+    <div id="tab-settings" class="acontent">
+      <div class="fg"><label>Hero name</label><input id="set-name" placeholder="Dhruv"></div>
+      <div class="fg"><label>Inspiring quote</label><input id="set-quote" placeholder="Quote text"></div>
+      <div class="fg"><label>Quote author</label><input id="set-author" placeholder="— Author"></div>
+      <button class="abtn" onclick="saveSettings()">Save Settings</button>
+      <div class="succ" id="set-ok">✓ Saved!</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const CAT = {
+  academic: {color:'#378ADD',bg:'rgba(55,138,221,0.12)',icon:'📘',label:'Academic'},
+  stem:     {color:'#4FC3F7',bg:'rgba(79,195,247,0.12)',icon:'🤖',label:'STEM'},
+  music:    {color:'#F06292',bg:'rgba(240,98,146,0.12)',icon:'🎵',label:'Music'},
+  sports:   {color:'#4CAF7D',bg:'rgba(76,175,125,0.12)',icon:'⚽',label:'Sports'},
+  arts:     {color:'#FFD54F',bg:'rgba(255,213,79,0.12)',icon:'🎨',label:'Arts'},
+  leadership:{color:'#C9922E',bg:'rgba(201,146,46,0.12)',icon:'🏆',label:'Leadership'},
+};
+
+const DEFAULT_ACH = [
+  {id:1,title:'Robotics Team — State Qualifier',desc:'Key member of the school Robotics Team that qualified for the State-level competition.',cat:'stem',year:'2024'},
+  {id:2,title:'Math League Winner',desc:'Won the qualifying round of the Math League competition while enrolled in Advanced Math during 6th grade.',cat:'academic',year:'2023'},
+  {id:3,title:'Pre-selected for Honors Math & Science',desc:'Pre-selected for Honors Math and Science for 7th grade at Woodward North.',cat:'academic',year:'2024'},
+  {id:4,title:'Debate — Multiple Awards',desc:'Actively involved in debate for over a year with continued formal training and multiple awards from various competitions.',cat:'leadership',year:'2023'},
+  {id:5,title:'Certified Web Development Course',desc:'Successfully completed a certified Web Development course.',cat:'stem',year:'2024'},
+  {id:6,title:'Piano — Superior Rating (3 Consecutive Years)',desc:'Pursuing piano for over 5 years, earning a "Superior" rating from the National Federation of Music Clubs for three consecutive years.',cat:'music',year:'2024'},
+  {id:7,title:'Trombone — School Band',desc:'Plays the trombone in the school band.',cat:'music',year:'2024'},
+  {id:8,title:'Black Belt in Taekwondo',desc:'Holds a black belt in Taekwondo — a testament to years of discipline and dedication.',cat:'sports',year:'2023'},
+  {id:9,title:'Saxophone — School Band',desc:'Plays Saxophone in the school band.',cat:'music',year:'2024'},
+  {id:10,title:'Professional Cricket Training',desc:'Actively pursues professional training in Cricket.',cat:'sports',year:'2024'},
+  {id:11,title:'Professional Badminton Training',desc:'Actively pursues professional training in Badminton.',cat:'sports',year:'2024'},
+];
+
+const DEFAULT_SERIES = [
+  {id:'hp',name:'Harry Potter',author:'J.K. Rowling',genre:'Fantasy',color:'#7B68EE',status:'complete',
+   books:["Sorcerer's Stone","Chamber of Secrets","Prisoner of Azkaban","Goblet of Fire","Order of the Phoenix","Half-Blood Prince","Deathly Hallows"]},
+  {id:'pj',name:'Percy Jackson & the Olympians',author:'Rick Riordan',genre:'Fantasy',color:'#378ADD',status:'complete',
+   books:["The Lightning Thief","The Sea of Monsters","The Titan's Curse","The Battle of the Labyrinth","The Last Olympian"]},
+  {id:'hoo',name:'The Heroes of Olympus',author:'Rick Riordan',genre:'Fantasy',color:'#BA7517',status:'complete',
+   books:["The Lost Hero","The Son of Neptune","The Mark of Athena","The House of Hades","The Blood of Olympus"]},
+  {id:'rp',name:'Ready Player One & Two',author:'Ernest Cline',genre:'Sci-Fi',color:'#1D9E75',status:'complete',
+   books:["Ready Player One","Ready Player Two"]},
+  {id:'hg',name:'The Hunger Games',author:'Suzanne Collins',genre:'Adventure',color:'#D85A30',status:'partial',
+   books:["The Hunger Games"]},
+  {id:'wn',name:'Wonder',author:'R.J. Palacio',genre:'Fiction',color:'#BA7517',status:'complete',
+   books:["Wonder"]},
+  {id:'op',name:'One Piece',author:'Eiichiro Oda',genre:'Manga',color:'#D4537E',status:'ongoing',
+   books:["Romance Dawn","Buggy the Clown","Don't Get Fooled Again","The Black Cat Pirates","For Whom the Bell Tolls","The Oath","The Crap-Geezer","I Won't Die","Tears","OK, Let's Stand Up!","The Meanest Man in the East","The Legend Begins","It's All Right!","Instinct","Straight Ahead!!!","Carrying On His Will","Hiriluk's Cherry Blossoms","Ace Arrives","Rebellion","Showdown at Alubarna","Utopia","Hope!!","Vivi's Adventure","People's Dreams","The 100 Million Berry Man","Adventure on Kami's Island","Overture","Wyper the Berserker","Oratorio","Capriccio","We Are!","Love Song","Davy Back Fight!!","City of Water, Water Seven","Sail Into the Sky","The Ninth Justice","Tom's Workers","Rocketman!!","Scramble","Having Arrived","Declaration of War","Pirates vs. CP9","Legend of a Hero","Let's Go Back","You Have My Sympathies","Adventure on Ghost Island","Cloudy, Partly Bony","Adventures of the Straw Hats","Nightmare Luffy","Arriving Again","The Eleven Supernovas","Roger and Rayleigh","Natural Born King","No One Can Stop This Now","A Ray of Light","Thank You","Paramount War","The Name of the Age","The Death of Portgas D. Ace","My Little Brother","Romance Dawn for the New World","Fishman Island","Otohime and Tiger","100,000 vs. 10","Promises","The Road Toward the Sun","Cool Fight","The Path to the Sun","S.A.D.","Enter Doflamingo","Colosseum of Chaos","Dressrosa's Tears","The Navigator's Dream","Ever at Your Side","Repaying the Debt","Just Keep Going","Smile","Champion of Evil","Lucy!!","Opening Speech","Let's Go See the Cat Viper","The World Is Restless","Nothing Happened","Luffy vs. Sanji","To the Reverie","A Man's World","Impel Down","Lion","Bad End Musical","Sacred Marijoa","Hakurai","The Lurking Legend","The Star-Crossed Woman","A Curtain Rises","The Ruins","I Am Oden, Born to Boil!","Ebisu Town","The Piranha of Odin","Straw Hat Luffy","Overwhelming Power","The Stars Are Stars","Nika","The Winner and the Loser","Pudding","Luffy's Gear 5","The Flames of Egghead","A Myth of the Sea","The Truth of That Day","The Elbaph Story","A New Beginning"]},
+  {id:'jjk',name:'Jujutsu Kaisen',author:'Gege Akutami',genre:'Manga',color:'#7F77DD',status:'partial',
+   books:["Jujutsu Kaisen 0","Ryomen Sukuna","Fearsome Womb","Young Fish & Reverse Punishment","I'm Gonna Kill You!","Kyoto Goodwill Event","Black Flash","The Origin of Obedience","Hidden Inventory","Premature Death","Evening Festival","Shibuya Incident – Gate Open","Shibuya Incident – Summon","Shibuya Incident – Thunderclap","Shibuya Incident – Right & Wrong"]},
+  {id:'mp',name:'Mob Psycho 100',author:'ONE',genre:'Manga',color:'#1D9E75',status:'complete',
+   books:["Vol. 1","Vol. 2","Vol. 3","Vol. 4","Vol. 5","Vol. 6","Vol. 7","Vol. 8","Vol. 9","Vol. 10","Vol. 11","Vol. 12","Vol. 13","Vol. 14","Vol. 15","Vol. 16"]},
+];
+
+const DEFAULT_SETTINGS = {name:'Dhruv',quote:'The secret of getting ahead is getting started.',author:'Mark Twain'};
+
+async function sget(k,d){try{const r=await window.storage.get(k);return r?JSON.parse(r.value):d}catch{return d}}
+async function sset(k,v){try{await window.storage.set(k,JSON.stringify(v))}catch{}}
+
+let ACH=[], SERIES=[], SETTINGS={};
+
+async function init(){
+  ACH = await sget('achs', DEFAULT_ACH);
+  SERIES = await sget('series', DEFAULT_SERIES);
+  SETTINGS = await sget('settings', DEFAULT_SETTINGS);
+  applySettings();
+  renderAchievements();
+  renderBooks();
+  updateHomeStats();
+}
+
+function applySettings(){
+  document.getElementById('hero-name').textContent = SETTINGS.name||'Dhruv';
+  document.getElementById('hero-quote').textContent = '"'+(SETTINGS.quote||DEFAULT_SETTINGS.quote)+'"';
+  document.getElementById('hero-cite').textContent = '— '+(SETTINGS.author||DEFAULT_SETTINGS.author);
+  document.getElementById('set-name').value = SETTINGS.name||'';
+  document.getElementById('set-quote').value = SETTINGS.quote||'';
+  document.getElementById('set-author').value = SETTINGS.author||'';
+}
+async function saveSettings(){
+  SETTINGS={name:document.getElementById('set-name').value.trim()||'Dhruv',quote:document.getElementById('set-quote').value.trim(),author:document.getElementById('set-author').value.trim()};
+  await sset('settings',SETTINGS);applySettings();
+  flash('set-ok');
+}
+
+function updateHomeStats(){
+  const totalBooks = SERIES.reduce((a,s)=>a+s.books.length,0);
+  document.getElementById('s-ach').textContent = ACH.length;
+  document.getElementById('s-bk').textContent = totalBooks;
+  document.getElementById('s-ser').textContent = SERIES.length;
+}
+
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('nl-'+id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+let achFilter='All';
+function renderAchievements(){
+  const cats = ['All',...new Set(ACH.map(a=>CAT[a.cat]?.label||a.cat))];
+  document.getElementById('ach-filters').innerHTML = cats.map(c=>
+    `<button class="fchip${c===achFilter?' on':''}" onclick="setAchFilter('${c}')">${c}</button>`
+  ).join('');
+  const list = achFilter==='All' ? ACH : ACH.filter(a=>(CAT[a.cat]?.label||a.cat)===achFilter);
+  document.getElementById('ach-grid').innerHTML = list.map(a=>{
+    const m=CAT[a.cat]||CAT.arts;
+    return `<div class="ach-card" style="--cat-color:${m.color}">
+      <div class="ach-icon-wrap" style="background:${m.bg}">${m.icon}</div>
+      <div class="ach-title">${a.title}</div>
+      <div class="ach-desc">${a.desc}</div>
+      <span class="ach-tag" style="background:${m.bg};color:${m.color};border:1px solid ${m.color}33">${m.label}${a.year?' · '+a.year:''}</span>
+    </div>`;
+  }).join('');
+}
+function setAchFilter(c){achFilter=c;renderAchievements();}
+
+function hexLuma(hex){
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return 0.299*r+0.587*g+0.114*b;
+}
+function shade(hex,p){
+  let r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return '#'+[Math.min(255,Math.round(r*(1+p))),Math.min(255,Math.round(g*(1+p))),Math.min(255,Math.round(b*(1+p)))].map(x=>x.toString(16).padStart(2,'0')).join('');
+}
+function wrapText(t,mx){
+  const words=t.split(' ');const lines=[];let cur='';
+  for(const w of words){
+    if((cur+' '+w).trim().length<=mx){cur=(cur+' '+w).trim();}
+    else{if(cur)lines.push(cur);cur=w;}
+    if(lines.length>=3)break;
+  }
+  if(cur&&lines.length<3)lines.push(cur);
+  return lines;
+}
+function mkSVG(color,title,idx){
+  const luma=hexLuma(color);
+  const fg=luma>140?'#00000099':'#ffffffcc';
+  const fgS=luma>140?'#000000cc':'#ffffffff';
+  const sp=shade(color,luma>140?-0.18:-0.12);
+  const tp=shade(color,luma>140?0.08:0.15);
+  const PATS=[
+    `<rect x="6" y="52" width="32" height="1.5" rx=".75" fill="${fg}"/>
+     <rect x="6" y="56" width="22" height="1.5" rx=".75" fill="${fg}" opacity=".5"/>`,
+    `<rect x="6" y="52" width="28" height="1.5" rx=".75" fill="${fg}"/>
+     <rect x="6" y="56" width="18" height="1.5" rx=".75" fill="${fg}" opacity=".5"/>`,
+    `<rect x="6" y="52" width="32" height="1.5" rx=".75" fill="${fg}"/>`,
+  ];
+  const lines=wrapText(title,9);
+  const totalH=lines.length*9.5;
+  const sY=22+(24-totalH)/2;
+  const textEls=lines.map((l,i)=>`<text x="22" y="${sY+i*9.5}" text-anchor="middle" fill="${fgS}" font-size="7" font-family="system-ui,sans-serif" font-weight="600">${l}</text>`).join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="68" viewBox="0 0 48 68">
+    <defs><linearGradient id="g${idx}" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="${sp}"/>
+      <stop offset="12%" stop-color="${color}"/>
+      <stop offset="88%" stop-color="${color}"/>
+      <stop offset="100%" stop-color="${tp}"/>
+    </linearGradient></defs>
+    <rect x="0" y="0" width="48" height="68" rx="3" fill="url(#g${idx})"/>
+    <rect x="0" y="0" width="5" height="68" rx="2" fill="${fgS}" opacity=".12"/>
+    <rect x="43" y="0" width="5" height="68" rx="2" fill="${fgS}" opacity=".06"/>
+    <rect x="6" y="10" width="36" height="1" rx=".5" fill="${fg}" opacity=".4"/>
+    ${textEls}
+    ${PATS[idx%PATS.length]}
+    <rect x="6" y="62" width="36" height="1" rx=".5" fill="${fg}" opacity=".4"/>
+  </svg>`;
+}
+function svgURL(svg){return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);}
+
+let genreFilter='All';
+function renderBooks(){
+  const search=(document.getElementById('book-search')||{value:''}).value.toLowerCase().trim();
+  const allGenres=['All',...new Set(SERIES.map(s=>s.genre))];
+  document.getElementById('genre-chips').innerHTML=allGenres.map(g=>
+    `<button class="fchip${g===genreFilter?' on':''}" onclick="setGenre('${g}')">${g}</button>`
+  ).join('');
+  let list=SERIES.filter(s=>{
+    if(genreFilter!=='All'&&s.genre!==genreFilter)return false;
+    if(!search)return true;
+    return s.name.toLowerCase().includes(search)||s.author.toLowerCase().includes(search)||s.books.some(b=>b.toLowerCase().includes(search));
+  });
+  const body=document.getElementById('books-body');
+  if(!list.length){body.innerHTML='<p style="color:var(--text2);padding:2rem 0">No results.</p>';return;}
+  body.innerHTML=list.map((s,si)=>{
+    const badge=s.status==='complete'
+      ?`<span class="sbadge" style="color:#4CAF7D;background:rgba(76,175,125,0.1);border-color:rgba(76,175,125,0.25)">Complete</span>`
+      :s.status==='ongoing'
+      ?`<span class="sbadge" style="color:#4FC3F7;background:rgba(79,195,247,0.1);border-color:rgba(79,195,247,0.25)">Ongoing</span>`
+      :`<span class="sbadge" style="color:#E8A045;background:rgba(232,160,69,0.1);border-color:rgba(232,160,69,0.25)">Partial</span>`;
+    const shelf=s.books.map((t,i)=>{
+      const svg=mkSVG(s.color,t,i+(si*7));
+      const src=svgURL(svg);
+      const tt=t.replace(/"/g,'&quot;');
+      return `<div class="book-icon">
+        <img src="${src}" width="48" height="68" class="book-img" alt="${tt}">
+        <div class="btitle-lbl">${t}</div>
+        <div class="btt">${tt}</div>
+      </div>`;
+    }).join('');
+    return `<div class="series-block">
+      <div class="series-header">
+        <div class="sdot" style="background:${s.color}"></div>
+        <span class="sname">${s.name}</span>
+        <span class="sauthor"> — ${s.author}</span>
+        ${badge}
+      </div>
+      <div class="shelf">${shelf}</div>
+      <div class="prog-row">
+        <div class="prog-track"><div class="prog-fill" style="width:100%;background:${s.color}"></div></div>
+        <span class="prog-lbl">${s.books.length} ${s.books.length===1?'book':'volumes'}</span>
+      </div>
+    </div>${si<list.length-1?'<div class="sdivider"></div>':''}`;
+  }).join('');
+}
+function setGenre(g){genreFilter=g;renderBooks();}
+
+function openAdmin(){
+  document.getElementById('admin-overlay').classList.add('open');
+  buildAdminLists();
+  const s=SETTINGS;
+  document.getElementById('set-name').value=s.name||'';
+  document.getElementById('set-quote').value=s.quote||'';
+  document.getElementById('set-author').value=s.author||'';
+}
+function closeAdmin(){document.getElementById('admin-overlay').classList.remove('open');}
+document.getElementById('admin-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('admin-overlay'))closeAdmin();});
+
+function switchTab(id){
+  document.querySelectorAll('.atab').forEach((t,i)=>{
+    const tabs=['add-ach','add-book','edit-ach','edit-books','settings'];
+    t.classList.toggle('on',tabs[i]===id);
+  });
+  document.querySelectorAll('.acontent').forEach(c=>c.classList.remove('on'));
+  document.getElementById('tab-'+id).classList.add('on');
+  buildAdminLists();
+}
+
+function buildAdminLists(){
+  document.getElementById('admin-ach-list').innerHTML=
+    `<p style="font-size:.78rem;color:var(--text3);margin-bottom:.75rem">Achievements (${ACH.length})</p>`+
+    ACH.map(a=>`<div class="aitem"><span class="aitem-text">${CAT[a.cat]?.icon||'🏅'} ${a.title}</span><button class="adelbtn" onclick="delAch(${a.id})">Remove</button></div>`).join('');
+  document.getElementById('admin-book-list').innerHTML=
+    `<p style="font-size:.78rem;color:var(--text3);margin-bottom:.75rem">Series (${SERIES.length})</p>`+
+    SERIES.map(s=>`<div class="aitem"><span class="aitem-text" style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:${s.color};flex-shrink:0;display:inline-block"></span>${s.name} <span style="color:var(--text3)">(${s.books.length} vols)</span></span><button class="adelbtn" onclick="delSeries('${s.id}')">Remove</button></div>`).join('');
+}
+
+async function addAch(){
+  const title=document.getElementById('na-title').value.trim();
+  const desc=document.getElementById('na-desc').value.trim();
+  const cat=document.getElementById('na-cat').value;
+  const year=document.getElementById('na-year').value.trim();
+  if(!title)return;
+  ACH.push({id:Date.now(),title,desc,cat,year});
+  await sset('achs',ACH);
+  renderAchievements();updateHomeStats();
+  document.getElementById('na-title').value='';
+  document.getElementById('na-desc').value='';
+  document.getElementById('na-year').value='';
+  flash('ach-ok');buildAdminLists();
+}
+
+async function addBookSeries(){
+  const name=document.getElementById('nb-name').value.trim();
+  const author=document.getElementById('nb-author').value.trim();
+  const genre=document.getElementById('nb-genre').value;
+  const booksRaw=document.getElementById('nb-books').value.trim();
+  const status=document.getElementById('nb-status').value;
+  if(!name)return;
+  const books=booksRaw.split('\n').map(s=>s.trim()).filter(Boolean);
+  const colors=['#7B68EE','#378ADD','#BA7517','#1D9E75','#D85A30','#D4537E','#7F77DD'];
+  const color=colors[SERIES.length%colors.length];
+  SERIES.push({id:'s'+Date.now(),name,author,genre,color,status,books});
+  await sset('series',SERIES);
+  renderBooks();updateHomeStats();
+  document.getElementById('nb-name').value='';
+  document.getElementById('nb-author').value='';
+  document.getElementById('nb-books').value='';
+  flash('book-ok');buildAdminLists();
+}
+
+async function delAch(id){
+  if(!confirm('Remove this achievement?'))return;
+  ACH=ACH.filter(a=>a.id!==id);
+  await sset('achs',ACH);renderAchievements();updateHomeStats();buildAdminLists();
+}
+async function delSeries(id){
+  if(!confirm('Remove this series?'))return;
+  SERIES=SERIES.filter(s=>s.id!==id);
+  await sset('series',SERIES);renderBooks();updateHomeStats();buildAdminLists();
+}
+
+function flash(id){
+  const el=document.getElementById(id);
+  el.style.display='block';setTimeout(()=>el.style.display='none',2500);
+}
+
+init();
+</script>
+</body>
+</html>
