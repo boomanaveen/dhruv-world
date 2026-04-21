@@ -163,6 +163,7 @@ nav{
 .orbit-tag:nth-child(2){bottom:30px;left:0;color:#4CAF7D;border-color:rgba(76,175,125,0.3)}
 .orbit-tag:nth-child(3){top:50%;right:-10px;transform:translateY(-50%);color:var(--gold2);border-color:rgba(245,217,139,0.3)}
 .orbit-tag:nth-child(4){bottom:10px;right:20px;color:#F06292;border-color:rgba(240,98,146,0.3)}
+
 /* quote */
 .home-quote{
   background:rgba(201,146,46,0.05);
@@ -381,19 +382,13 @@ nav{
   <button class="nav-admin" onclick="openAdmin()">⚙ Manage</button>
 </nav>
 
-<!-- HOME -->
 <section id="home" class="page active">
   <div class="home-inner">
     <div class="home-grid">
       <div>
         <div class="home-eyebrow anim anim-1">Hall of Excellence</div>
-        <h1 class="home-h1 anim anim-2">
-          The World<br>of <span class="gold" id="hero-name">Dhruv</span><br>
-          <span class="italic">Unfolds Here</span>
-        </h1>
-        <p class="home-desc anim anim-3">
-          A living record of accomplishments, books conquered, and passions pursued — every entry a chapter in an extraordinary journey.
-        </p>
+        <h1 class="home-h1 anim anim-2">The World<br>of <span class="gold" id="hero-name">Dhruv</span><br><span class="italic">Unfolds Here</span></h1>
+        <p class="home-desc anim anim-3">A living record of accomplishments, books conquered, and passions pursued — every entry a chapter in an extraordinary journey.</p>
         <div class="home-ctas anim anim-4">
           <button class="btn-primary" onclick="go('achievements')">View Achievements</button>
           <button class="btn-ghost" onclick="go('books')">Browse Library</button>
@@ -423,7 +418,6 @@ nav{
   </div>
 </section>
 
-<!-- ACHIEVEMENTS -->
 <section id="achievements" class="page">
   <div class="section-inner">
     <div class="section-header anim anim-1">
@@ -436,7 +430,6 @@ nav{
   </div>
 </section>
 
-<!-- BOOKS -->
 <section id="books" class="page">
   <div class="section-inner">
     <div class="section-header anim anim-1">
@@ -455,7 +448,6 @@ nav{
   </div>
 </section>
 
-<!-- ADMIN OVERLAY -->
 <div id="admin-overlay">
   <div class="admin-panel">
     <button class="admin-close" onclick="closeAdmin()">✕</button>
@@ -472,12 +464,9 @@ nav{
       <div class="fg"><label>Description</label><textarea id="na-desc" placeholder="Details…"></textarea></div>
       <div class="fg"><label>Category</label>
         <select id="na-cat">
-          <option value="academic">Academic</option>
-          <option value="stem">STEM</option>
-          <option value="music">Music</option>
-          <option value="sports">Sports</option>
-          <option value="arts">Arts &amp; Other</option>
-          <option value="leadership">Leadership</option>
+          <option value="academic">Academic</option><option value="stem">STEM</option>
+          <option value="music">Music</option><option value="sports">Sports</option>
+          <option value="arts">Arts &amp; Other</option><option value="leadership">Leadership</option>
         </select>
       </div>
       <div class="fg"><label>Year</label><input id="na-year" placeholder="e.g. 2024"></div>
@@ -488,12 +477,9 @@ nav{
       <div class="fg"><label>Series Name</label><input id="nb-name" placeholder="e.g. The Lord of the Rings"></div>
       <div class="fg"><label>Author</label><input id="nb-author" placeholder="e.g. J.R.R. Tolkien"></div>
       <div class="fg"><label>Genre</label>
-        <select id="nb-genre">
-          <option>Fantasy</option><option>Sci-Fi</option><option>Manga</option>
-          <option>Adventure</option><option>Fiction</option><option>Other</option>
-        </select>
+        <select id="nb-genre"><option>Fantasy</option><option>Sci-Fi</option><option>Manga</option><option>Adventure</option><option>Fiction</option><option>Other</option></select>
       </div>
-      <div class="fg"><label>Books (one title per line)</label><textarea id="nb-books" placeholder="The Fellowship of the Ring&#10;The Two Towers" style="min-height:100px"></textarea></div>
+      <div class="fg"><label>Books (one per line)</label><textarea id="nb-books" style="min-height:100px"></textarea></div>
       <div class="fg"><label>Status</label>
         <select id="nb-status"><option value="complete">Complete</option><option value="partial">Partial</option><option value="ongoing">Ongoing</option></select>
       </div>
@@ -504,8 +490,8 @@ nav{
     <div id="tab-edit-books" class="acontent"><div class="alist" id="admin-book-list"></div></div>
     <div id="tab-settings" class="acontent">
       <div class="fg"><label>Hero name</label><input id="set-name" placeholder="Dhruv"></div>
-      <div class="fg"><label>Inspiring quote</label><input id="set-quote" placeholder="Quote text"></div>
-      <div class="fg"><label>Quote author</label><input id="set-author" placeholder="— Author"></div>
+      <div class="fg"><label>Inspiring quote</label><input id="set-quote"></div>
+      <div class="fg"><label>Quote author</label><input id="set-author"></div>
       <button class="abtn" onclick="saveSettings()">Save Settings</button>
       <div class="succ" id="set-ok">✓ Saved!</div>
     </div>
@@ -548,8 +534,7 @@ const DEFAULT_SERIES = [
   {id:'hg',name:'The Hunger Games',author:'Suzanne Collins',genre:'Adventure',color:'#D85A30',status:'partial',
    books:["The Hunger Games"]},
   {id:'wn',name:'Wonder',author:'R.J. Palacio',genre:'Fiction',color:'#BA7517',status:'complete',
-   books:["Wonder"]},
-  {id:'op',name:'One Piece',author:'Eiichiro Oda',genre:'Manga',color:'#D4537E',status:'ongoing',
+   books:["Wonder"]},  {id:'op',name:'One Piece',author:'Eiichiro Oda',genre:'Manga',color:'#D4537E',status:'ongoing',
    books:["Romance Dawn","Buggy the Clown","Don't Get Fooled Again","The Black Cat Pirates","For Whom the Bell Tolls","The Oath","The Crap-Geezer","I Won't Die","Tears","OK, Let's Stand Up!","The Meanest Man in the East","The Legend Begins","It's All Right!","Instinct","Straight Ahead!!!","Carrying On His Will","Hiriluk's Cherry Blossoms","Ace Arrives","Rebellion","Showdown at Alubarna","Utopia","Hope!!","Vivi's Adventure","People's Dreams","The 100 Million Berry Man","Adventure on Kami's Island","Overture","Wyper the Berserker","Oratorio","Capriccio","We Are!","Love Song","Davy Back Fight!!","City of Water, Water Seven","Sail Into the Sky","The Ninth Justice","Tom's Workers","Rocketman!!","Scramble","Having Arrived","Declaration of War","Pirates vs. CP9","Legend of a Hero","Let's Go Back","You Have My Sympathies","Adventure on Ghost Island","Cloudy, Partly Bony","Adventures of the Straw Hats","Nightmare Luffy","Arriving Again","The Eleven Supernovas","Roger and Rayleigh","Natural Born King","No One Can Stop This Now","A Ray of Light","Thank You","Paramount War","The Name of the Age","The Death of Portgas D. Ace","My Little Brother","Romance Dawn for the New World","Fishman Island","Otohime and Tiger","100,000 vs. 10","Promises","The Road Toward the Sun","Cool Fight","The Path to the Sun","S.A.D.","Enter Doflamingo","Colosseum of Chaos","Dressrosa's Tears","The Navigator's Dream","Ever at Your Side","Repaying the Debt","Just Keep Going","Smile","Champion of Evil","Lucy!!","Opening Speech","Let's Go See the Cat Viper","The World Is Restless","Nothing Happened","Luffy vs. Sanji","To the Reverie","A Man's World","Impel Down","Lion","Bad End Musical","Sacred Marijoa","Hakurai","The Lurking Legend","The Star-Crossed Woman","A Curtain Rises","The Ruins","I Am Oden, Born to Boil!","Ebisu Town","The Piranha of Odin","Straw Hat Luffy","Overwhelming Power","The Stars Are Stars","Nika","The Winner and the Loser","Pudding","Luffy's Gear 5","The Flames of Egghead","A Myth of the Sea","The Truth of That Day","The Elbaph Story","A New Beginning"]},
   {id:'jjk',name:'Jujutsu Kaisen',author:'Gege Akutami',genre:'Manga',color:'#7F77DD',status:'partial',
    books:["Jujutsu Kaisen 0","Ryomen Sukuna","Fearsome Womb","Young Fish & Reverse Punishment","I'm Gonna Kill You!","Kyoto Goodwill Event","Black Flash","The Origin of Obedience","Hidden Inventory","Premature Death","Evening Festival","Shibuya Incident – Gate Open","Shibuya Incident – Summon","Shibuya Incident – Thunderclap","Shibuya Incident – Right & Wrong"]},
@@ -559,15 +544,16 @@ const DEFAULT_SERIES = [
 
 const DEFAULT_SETTINGS = {name:'Dhruv',quote:'The secret of getting ahead is getting started.',author:'Mark Twain'};
 
-async function sget(k,d){try{const r=await window.storage.get(k);return r?JSON.parse(r.value):d}catch{return d}}
-async function sset(k,v){try{await window.storage.set(k,JSON.stringify(v))}catch{}}
+// ── STORAGE (localStorage) ──
+function sget(k,d){try{const r=localStorage.getItem(k);return r?JSON.parse(r):d}catch{return d}}
+function sset(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}
 
 let ACH=[], SERIES=[], SETTINGS={};
 
-async function init(){
-  ACH = await sget('achs', DEFAULT_ACH);
-  SERIES = await sget('series', DEFAULT_SERIES);
-  SETTINGS = await sget('settings', DEFAULT_SETTINGS);
+function init(){
+  ACH = sget('achs', DEFAULT_ACH);
+  SERIES = sget('series', DEFAULT_SERIES);
+  SETTINGS = sget('settings', DEFAULT_SETTINGS);
   applySettings();
   renderAchievements();
   renderBooks();
@@ -582,10 +568,9 @@ function applySettings(){
   document.getElementById('set-quote').value = SETTINGS.quote||'';
   document.getElementById('set-author').value = SETTINGS.author||'';
 }
-async function saveSettings(){
+function saveSettings(){
   SETTINGS={name:document.getElementById('set-name').value.trim()||'Dhruv',quote:document.getElementById('set-quote').value.trim(),author:document.getElementById('set-author').value.trim()};
-  await sset('settings',SETTINGS);applySettings();
-  flash('set-ok');
+  sset('settings',SETTINGS);applySettings();flash('set-ok');
 }
 
 function updateHomeStats(){
@@ -605,12 +590,12 @@ function go(id){
 
 let achFilter='All';
 function renderAchievements(){
-  const cats = ['All',...new Set(ACH.map(a=>CAT[a.cat]?.label||a.cat))];
-  document.getElementById('ach-filters').innerHTML = cats.map(c=>
+  const cats=['All',...new Set(ACH.map(a=>CAT[a.cat]?.label||a.cat))];
+  document.getElementById('ach-filters').innerHTML=cats.map(c=>
     `<button class="fchip${c===achFilter?' on':''}" onclick="setAchFilter('${c}')">${c}</button>`
   ).join('');
-  const list = achFilter==='All' ? ACH : ACH.filter(a=>(CAT[a.cat]?.label||a.cat)===achFilter);
-  document.getElementById('ach-grid').innerHTML = list.map(a=>{
+  const list=achFilter==='All'?ACH:ACH.filter(a=>(CAT[a.cat]?.label||a.cat)===achFilter);
+  document.getElementById('ach-grid').innerHTML=list.map(a=>{
     const m=CAT[a.cat]||CAT.arts;
     return `<div class="ach-card" style="--cat-color:${m.color}">
       <div class="ach-icon-wrap" style="background:${m.bg}">${m.icon}</div>
@@ -622,56 +607,16 @@ function renderAchievements(){
 }
 function setAchFilter(c){achFilter=c;renderAchievements();}
 
-function hexLuma(hex){
-  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
-  return 0.299*r+0.587*g+0.114*b;
-}
-function shade(hex,p){
-  let r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
-  return '#'+[Math.min(255,Math.round(r*(1+p))),Math.min(255,Math.round(g*(1+p))),Math.min(255,Math.round(b*(1+p)))].map(x=>x.toString(16).padStart(2,'0')).join('');
-}
-function wrapText(t,mx){
-  const words=t.split(' ');const lines=[];let cur='';
-  for(const w of words){
-    if((cur+' '+w).trim().length<=mx){cur=(cur+' '+w).trim();}
-    else{if(cur)lines.push(cur);cur=w;}
-    if(lines.length>=3)break;
-  }
-  if(cur&&lines.length<3)lines.push(cur);
-  return lines;
-}
+function hexLuma(hex){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return 0.299*r+0.587*g+0.114*b;}
+function shade(hex,p){let r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return '#'+[Math.min(255,Math.round(r*(1+p))),Math.min(255,Math.round(g*(1+p))),Math.min(255,Math.round(b*(1+p)))].map(x=>x.toString(16).padStart(2,'0')).join('');}
+function wrapText(t,mx){const words=t.split(' ');const lines=[];let cur='';for(const w of words){if((cur+' '+w).trim().length<=mx){cur=(cur+' '+w).trim();}else{if(cur)lines.push(cur);cur=w;}if(lines.length>=3)break;}if(cur&&lines.length<3)lines.push(cur);return lines;}
 function mkSVG(color,title,idx){
-  const luma=hexLuma(color);
-  const fg=luma>140?'#00000099':'#ffffffcc';
-  const fgS=luma>140?'#000000cc':'#ffffffff';
-  const sp=shade(color,luma>140?-0.18:-0.12);
-  const tp=shade(color,luma>140?0.08:0.15);
-  const PATS=[
-    `<rect x="6" y="52" width="32" height="1.5" rx=".75" fill="${fg}"/>
-     <rect x="6" y="56" width="22" height="1.5" rx=".75" fill="${fg}" opacity=".5"/>`,
-    `<rect x="6" y="52" width="28" height="1.5" rx=".75" fill="${fg}"/>
-     <rect x="6" y="56" width="18" height="1.5" rx=".75" fill="${fg}" opacity=".5"/>`,
-    `<rect x="6" y="52" width="32" height="1.5" rx=".75" fill="${fg}"/>`,
-  ];
-  const lines=wrapText(title,9);
-  const totalH=lines.length*9.5;
-  const sY=22+(24-totalH)/2;
+  const luma=hexLuma(color),fg=luma>140?'#00000099':'#ffffffcc',fgS=luma>140?'#000000cc':'#ffffffff';
+  const sp=shade(color,luma>140?-0.18:-0.12),tp=shade(color,luma>140?0.08:0.15);
+  const PATS=[`<rect x="6" y="52" width="32" height="1.5" rx=".75" fill="${fg}"/><rect x="6" y="56" width="22" height="1.5" rx=".75" fill="${fg}" opacity=".5"/>`,`<rect x="6" y="52" width="28" height="1.5" rx=".75" fill="${fg}"/><rect x="6" y="56" width="18" height="1.5" rx=".75" fill="${fg}" opacity=".5"/>`,`<rect x="6" y="52" width="32" height="1.5" rx=".75" fill="${fg}"/>`];
+  const lines=wrapText(title,9),totalH=lines.length*9.5,sY=22+(24-totalH)/2;
   const textEls=lines.map((l,i)=>`<text x="22" y="${sY+i*9.5}" text-anchor="middle" fill="${fgS}" font-size="7" font-family="system-ui,sans-serif" font-weight="600">${l}</text>`).join('');
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="68" viewBox="0 0 48 68">
-    <defs><linearGradient id="g${idx}" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="${sp}"/>
-      <stop offset="12%" stop-color="${color}"/>
-      <stop offset="88%" stop-color="${color}"/>
-      <stop offset="100%" stop-color="${tp}"/>
-    </linearGradient></defs>
-    <rect x="0" y="0" width="48" height="68" rx="3" fill="url(#g${idx})"/>
-    <rect x="0" y="0" width="5" height="68" rx="2" fill="${fgS}" opacity=".12"/>
-    <rect x="43" y="0" width="5" height="68" rx="2" fill="${fgS}" opacity=".06"/>
-    <rect x="6" y="10" width="36" height="1" rx=".5" fill="${fg}" opacity=".4"/>
-    ${textEls}
-    ${PATS[idx%PATS.length]}
-    <rect x="6" y="62" width="36" height="1" rx=".5" fill="${fg}" opacity=".4"/>
-  </svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="68" viewBox="0 0 48 68"><defs><linearGradient id="g${idx}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${sp}"/><stop offset="12%" stop-color="${color}"/><stop offset="88%" stop-color="${color}"/><stop offset="100%" stop-color="${tp}"/></linearGradient></defs><rect x="0" y="0" width="48" height="68" rx="3" fill="url(#g${idx})"/><rect x="0" y="0" width="5" height="68" rx="2" fill="${fgS}" opacity=".12"/><rect x="43" y="0" width="5" height="68" rx="2" fill="${fgS}" opacity=".06"/><rect x="6" y="10" width="36" height="1" rx=".5" fill="${fg}" opacity=".4"/>${textEls}${PATS[idx%PATS.length]}<rect x="6" y="62" width="36" height="1" rx=".5" fill="${fg}" opacity=".4"/></svg>`;
 }
 function svgURL(svg){return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);}
 
@@ -679,9 +624,7 @@ let genreFilter='All';
 function renderBooks(){
   const search=(document.getElementById('book-search')||{value:''}).value.toLowerCase().trim();
   const allGenres=['All',...new Set(SERIES.map(s=>s.genre))];
-  document.getElementById('genre-chips').innerHTML=allGenres.map(g=>
-    `<button class="fchip${g===genreFilter?' on':''}" onclick="setGenre('${g}')">${g}</button>`
-  ).join('');
+  document.getElementById('genre-chips').innerHTML=allGenres.map(g=>`<button class="fchip${g===genreFilter?' on':''}" onclick="setGenre('${g}')">${g}</button>`).join('');
   let list=SERIES.filter(s=>{
     if(genreFilter!=='All'&&s.genre!==genreFilter)return false;
     if(!search)return true;
@@ -690,54 +633,19 @@ function renderBooks(){
   const body=document.getElementById('books-body');
   if(!list.length){body.innerHTML='<p style="color:var(--text2);padding:2rem 0">No results.</p>';return;}
   body.innerHTML=list.map((s,si)=>{
-    const badge=s.status==='complete'
-      ?`<span class="sbadge" style="color:#4CAF7D;background:rgba(76,175,125,0.1);border-color:rgba(76,175,125,0.25)">Complete</span>`
-      :s.status==='ongoing'
-      ?`<span class="sbadge" style="color:#4FC3F7;background:rgba(79,195,247,0.1);border-color:rgba(79,195,247,0.25)">Ongoing</span>`
-      :`<span class="sbadge" style="color:#E8A045;background:rgba(232,160,69,0.1);border-color:rgba(232,160,69,0.25)">Partial</span>`;
-    const shelf=s.books.map((t,i)=>{
-      const svg=mkSVG(s.color,t,i+(si*7));
-      const src=svgURL(svg);
-      const tt=t.replace(/"/g,'&quot;');
-      return `<div class="book-icon">
-        <img src="${src}" width="48" height="68" class="book-img" alt="${tt}">
-        <div class="btitle-lbl">${t}</div>
-        <div class="btt">${tt}</div>
-      </div>`;
-    }).join('');
-    return `<div class="series-block">
-      <div class="series-header">
-        <div class="sdot" style="background:${s.color}"></div>
-        <span class="sname">${s.name}</span>
-        <span class="sauthor"> — ${s.author}</span>
-        ${badge}
-      </div>
-      <div class="shelf">${shelf}</div>
-      <div class="prog-row">
-        <div class="prog-track"><div class="prog-fill" style="width:100%;background:${s.color}"></div></div>
-        <span class="prog-lbl">${s.books.length} ${s.books.length===1?'book':'volumes'}</span>
-      </div>
-    </div>${si<list.length-1?'<div class="sdivider"></div>':''}`;
+    const badge=s.status==='complete'?`<span class="sbadge" style="color:#4CAF7D;background:rgba(76,175,125,0.1);border-color:rgba(76,175,125,0.25)">Complete</span>`:s.status==='ongoing'?`<span class="sbadge" style="color:#4FC3F7;background:rgba(79,195,247,0.1);border-color:rgba(79,195,247,0.25)">Ongoing</span>`:`<span class="sbadge" style="color:#E8A045;background:rgba(232,160,69,0.1);border-color:rgba(232,160,69,0.25)">Partial</span>`;
+    const shelf=s.books.map((t,i)=>{const svg=mkSVG(s.color,t,i+(si*7));const src=svgURL(svg);const tt=t.replace(/"/g,'&quot;');return `<div class="book-icon"><img src="${src}" width="48" height="68" class="book-img" alt="${tt}"><div class="btitle-lbl">${t}</div><div class="btt">${tt}</div></div>`;}).join('');
+    return `<div class="series-block"><div class="series-header"><div class="sdot" style="background:${s.color}"></div><span class="sname">${s.name}</span><span class="sauthor"> — ${s.author}</span>${badge}</div><div class="shelf">${shelf}</div><div class="prog-row"><div class="prog-track"><div class="prog-fill" style="width:100%;background:${s.color}"></div></div><span class="prog-lbl">${s.books.length} ${s.books.length===1?'book':'volumes'}</span></div></div>${si<list.length-1?'<div class="sdivider"></div>':''}`;
   }).join('');
 }
 function setGenre(g){genreFilter=g;renderBooks();}
 
-function openAdmin(){
-  document.getElementById('admin-overlay').classList.add('open');
-  buildAdminLists();
-  const s=SETTINGS;
-  document.getElementById('set-name').value=s.name||'';
-  document.getElementById('set-quote').value=s.quote||'';
-  document.getElementById('set-author').value=s.author||'';
-}
+function openAdmin(){document.getElementById('admin-overlay').classList.add('open');buildAdminLists();const s=SETTINGS;document.getElementById('set-name').value=s.name||'';document.getElementById('set-quote').value=s.quote||'';document.getElementById('set-author').value=s.author||'';}
 function closeAdmin(){document.getElementById('admin-overlay').classList.remove('open');}
 document.getElementById('admin-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('admin-overlay'))closeAdmin();});
 
 function switchTab(id){
-  document.querySelectorAll('.atab').forEach((t,i)=>{
-    const tabs=['add-ach','add-book','edit-ach','edit-books','settings'];
-    t.classList.toggle('on',tabs[i]===id);
-  });
+  document.querySelectorAll('.atab').forEach((t,i)=>{const tabs=['add-ach','add-book','edit-ach','edit-books','settings'];t.classList.toggle('on',tabs[i]===id);});
   document.querySelectorAll('.acontent').forEach(c=>c.classList.remove('on'));
   document.getElementById('tab-'+id).classList.add('on');
   buildAdminLists();
@@ -752,14 +660,14 @@ function buildAdminLists(){
     SERIES.map(s=>`<div class="aitem"><span class="aitem-text" style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:${s.color};flex-shrink:0;display:inline-block"></span>${s.name} <span style="color:var(--text3)">(${s.books.length} vols)</span></span><button class="adelbtn" onclick="delSeries('${s.id}')">Remove</button></div>`).join('');
 }
 
-async function addAch(){
+function addAch(){
   const title=document.getElementById('na-title').value.trim();
   const desc=document.getElementById('na-desc').value.trim();
   const cat=document.getElementById('na-cat').value;
   const year=document.getElementById('na-year').value.trim();
   if(!title)return;
   ACH.push({id:Date.now(),title,desc,cat,year});
-  await sset('achs',ACH);
+  sset('achs',ACH);
   renderAchievements();updateHomeStats();
   document.getElementById('na-title').value='';
   document.getElementById('na-desc').value='';
@@ -767,7 +675,7 @@ async function addAch(){
   flash('ach-ok');buildAdminLists();
 }
 
-async function addBookSeries(){
+function addBookSeries(){
   const name=document.getElementById('nb-name').value.trim();
   const author=document.getElementById('nb-author').value.trim();
   const genre=document.getElementById('nb-genre').value;
@@ -778,7 +686,7 @@ async function addBookSeries(){
   const colors=['#7B68EE','#378ADD','#BA7517','#1D9E75','#D85A30','#D4537E','#7F77DD'];
   const color=colors[SERIES.length%colors.length];
   SERIES.push({id:'s'+Date.now(),name,author,genre,color,status,books});
-  await sset('series',SERIES);
+  sset('series',SERIES);
   renderBooks();updateHomeStats();
   document.getElementById('nb-name').value='';
   document.getElementById('nb-author').value='';
@@ -786,15 +694,15 @@ async function addBookSeries(){
   flash('book-ok');buildAdminLists();
 }
 
-async function delAch(id){
+function delAch(id){
   if(!confirm('Remove this achievement?'))return;
   ACH=ACH.filter(a=>a.id!==id);
-  await sset('achs',ACH);renderAchievements();updateHomeStats();buildAdminLists();
+  sset('achs',ACH);renderAchievements();updateHomeStats();buildAdminLists();
 }
-async function delSeries(id){
+function delSeries(id){
   if(!confirm('Remove this series?'))return;
   SERIES=SERIES.filter(s=>s.id!==id);
-  await sset('series',SERIES);renderBooks();updateHomeStats();buildAdminLists();
+  sset('series',SERIES);renderBooks();updateHomeStats();buildAdminLists();
 }
 
 function flash(id){
